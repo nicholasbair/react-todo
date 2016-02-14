@@ -4,6 +4,10 @@ import Header from './Header';
 import AddTodoForm from './AddTodoForm';
 import Todo from './Todo';
 
+// Firebase
+import Rebase from 're-base';
+let base = Rebase.createClass('https://react-todo99.firebaseio.com/');
+
 // App
 @autobind
 class App extends React.Component {
@@ -13,6 +17,13 @@ class App extends React.Component {
     this.state = {
       todos: {}
     };
+  }
+
+  componentDidMount() {
+    base.syncState(this.props.params.listId + '/todos', {
+      context: this,
+      state: 'todos'
+    });
   }
 
   addTodo(todo) {
